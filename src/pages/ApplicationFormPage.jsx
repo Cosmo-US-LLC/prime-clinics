@@ -363,6 +363,9 @@ const positionRef = useRef(null);
                         <option value="licensed_practical_nurse">
                           Licensed Practical Nurse (LPN)
                         </option>
+                        <option value="other">
+                          Other
+                        </option>
                       </select>
 
                       {errors.position && (
