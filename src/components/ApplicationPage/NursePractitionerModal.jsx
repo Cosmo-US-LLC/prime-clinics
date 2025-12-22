@@ -1,21 +1,22 @@
-import React from 'react'
-import Modal from '../ui/Modal';
+import React from "react";
+import Modal from "../ui/Modal";
 
 const responsibilities = [
   {
     title: "Patient Consultation & Assessment",
     items: [
-      "Conduct comprehensive consultations, assessing client needs, goals, and medical history to design personalized treatment plans.",
+      "Conduct comprehensive consultations, assessing client needs, goals, and medical history to design personalised treatment plans.",
       "Educate clients on treatment options, expected results, and appropriate post-treatment care.",
+      "Advise on optimal treatment protocols for hormone therapy, sexual health, weight management programmes, hair restoration, and facial aesthetics.",
       "Recommend home maintenance protocols.",
     ],
   },
   {
     title: "Performance and Wellness Treatments",
     items: [
-      "Diagnostics: DXA, MVO2, BMR, Biomarker Testing",
-      "Injections: Dermal Fillers (face and erectile), Neuromodulators, PRP (hair restoration, joints), IV Drip, Booster Shots",
-      "BTL Devices: Emculpt, Emsella, Exomind",
+      "Diagnostics: DXA, MVO2, BMR, biomarker testing.",
+      "Prescriptions, requisitions, and referrals: hormone, peptide, blood, and urine.",
+      "Injections: dermal fillers (face and erectile), neuromodulators, PRP (hair restoration and joints), IV drip, and booster shots.",
     ],
   },
   {
@@ -39,7 +40,8 @@ const responsibilities = [
     items: [
       "Work closely with other clinic professionals to provide coordinated and comprehensive care.",
       "Participate in ongoing training, quality improvement initiatives, and team meetings.",
-      "Contribute to a positive, patient-centered clinic culture that prioritizes high standards of care.",
+      "Contribute to a positive, patient-centred clinic culture that prioritises high standards of care.",
+      "Provide day-to-day clinical leadership and support for LPNs and nursing staff.",
     ],
   },
 ];
@@ -48,10 +50,10 @@ const qualificationsAndBenefits = [
   {
     title: "Qualifications",
     items: [
-      "Licensed: Licensed Practical Nurse (LPN) license and certification for province with prescriptive authority.",
-      "Experience: Minimum of 1–2 years of experience in cosmetic injections.",
+      "Licensed: Valid Nurse Practitioner (NP) licence and certification for the province with prescriptive authority.",
+      "Experience: Minimum of 1–2 years of experience in hormone replacement therapy and cosmetic injections.",
       "Skills: Strong clinical assessment skills, and a commitment to patient safety and satisfaction.",
-      "Personality: Interest in Health and Wellness, professional, and skilled at building trust and rapport with patients.",
+      "Leadership: Medical Director for LPNs, with a passion for the performance and longevity industry.",
     ],
   },
   {
@@ -65,18 +67,19 @@ const qualificationsAndBenefits = [
   },
 ];
 
+
 const jobMeta = [
   {
     label: "Position Title",
-    value: "Licensed Practical Nurse (LPN)",
+    value: "NURSE PRACTIONER – INJECTOR - HRT",
   },
   {
     label: "Reports To",
-    value: "Clinic Lead and Medical Director",
+    value: "CEO and Medical Director",
   },
   {
     label: "Job Type",
-    value: "Part-time with opportunity to Full-Time",
+    value: "Part-time with opportunity to grow to full-time hours",
   },
   {
     label: "Job Posted",
@@ -92,39 +95,48 @@ const jobMeta = [
   },
 ];
 
-const NursePractitionerModal = ({showNpModal , setShowNpModal , onSelectPosition}) => {
+const NursePractitionerModal = ({
+  showNpModal,
+  setShowNpModal,
+  onSelectPosition,
+}) => {
   return (
     <Modal
-        isOpen={showNpModal}
-        onClose={() => setShowNpModal(false)}
-        title="Nurse Practitioner (NP)"
-      >
-         <div className=" flex md:flex-row-reverse flex-col gap-[20px] ">
-        <div className="">
+      isOpen={showNpModal}
+      onClose={() => {
+        // onSelectPosition("nurse_practitioner");
+        setShowNpModal(false);
+      }}
+      title="Nurse Practitioner (NP)"
+    >
+      <div className=" flex md:flex-row-reverse flex-col gap-[20px] ">
+        <div className="max-w-[360px]">
           <div className="space-y-[14px] md:py-[24px] md:bg-[#E9F0FF] rounded-lg md:px-[20px]">
-          <h4 className="text-[28px] font-bold text-[#101828]">
-            Job Information
-          </h4>
-          <div className="space-y-6">
-            {jobMeta.map((item, index) => (
-              <div key={index}>
-                <p className="md:text-[14px] text-[13px] text-[#4A5565]">{item.label}</p>
-                <p className="md:text-[14px] text-[13px] font-semibold text-[#373737]">
-                  {item.value}
-                </p>
-              </div>
-            ))}
+            <h4 className="text-[28px] font-bold text-[#101828]">
+              Job Information
+            </h4>
+            <div className="space-y-6">
+              {jobMeta.map((item, index) => (
+                <div key={index}>
+                  <p className="md:text-[14px] text-[13px] text-[#4A5565]">
+                    {item.label}
+                  </p>
+                  <p className="md:text-[14px] text-[13px] font-semibold text-[#373737]">
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-          </div>
-            <button
-              onClick={() => {
-                onSelectPosition("licensed_practical_nurse");
-                setShowNpModal(false);
-              }}
-              className="bg-[#155DFC] text-white py-2 px-4 rounded-lg block mt-[18px] w-full max-md:hidden"
-            >
-              Apply Now
-            </button>
+          <button
+            onClick={() => {
+              onSelectPosition("nurse_practitioner");
+              setShowNpModal(false);
+            }}
+            className="bg-[#155DFC] text-white py-2 px-4 rounded-lg block mt-[18px] w-full max-md:hidden"
+          >
+            Apply Now
+          </button>
         </div>
         <div className="flex-1 space-y-[28px]">
           <div className="space-y-2">
@@ -144,7 +156,9 @@ const NursePractitionerModal = ({showNpModal , setShowNpModal , onSelectPosition
             </p>
           </div>
           <div className="space-y-2">
-            <h4 className="md:text-[24px] text-[22px] font-bold text-[#101828]">Location</h4>
+            <h4 className="md:text-[24px] text-[22px] font-bold text-[#101828]">
+              Location
+            </h4>
             <p className="text-[#364153] md:text-[14px] text-[13px]">
               PRIME Clinics has established a relationship with Evolve Strength
               Gyms, the first location within Evolve at South Edmonton Common
@@ -156,13 +170,9 @@ const NursePractitionerModal = ({showNpModal , setShowNpModal , onSelectPosition
               Job Summary
             </h4>
             <p className="text-[#364153] md:text-[14px] text-[13px]">
-              Your role will involve conducting diagnostic assessments and
-              recommending individualized treatment pathways. You will also
-              perform a variety of treatments, including cosmetic injections
-              (dermal fillers and neurotoxins), IV drips and Performance Booster
-              shots, PRP for hair restoration and erectile rejuvenation, as well
-              as the use of electromagnetic stimulation devices.
+             As a Nurse Practitioner Injector at Prime Clinics, you will play a vital role in providing specialized treatments that support both health and aesthetic goals. In addition to administering advanced therapies, you will take on leadership responsibilities under the guidance of the Medical Director, offering mentorship, training, and clinical troubleshooting for staff at your designated clinic.
             </p>
+            <p>Your role will involve conducting diagnostic assessments and recommending individualized treatment pathways, which may include prescriptions, requisitions, and referrals for services such as hormone replacement therapy, weight management, and other medically led programs. You will also perform a variety of treatments, including Bioidentical Hormone Replacement Therapy (BHRT), cosmetic injections (dermal fillers and neurotoxins), IV drips and Performance Booster shots, PRP for hair restoration and erectile rejuvenation, as well as the use of electromagnetic stimulation devices.</p>
           </div>
 
           <div className="space-y-4">
@@ -210,9 +220,9 @@ const NursePractitionerModal = ({showNpModal , setShowNpModal , onSelectPosition
                 If you are a skilled Licensed Practical Nurse – Cosmetic
                 Injector with a passion for optimized health and aesthetic
                 medicine, we invite you to join our team at Prime Clinics and
-                help our clients achieve their performance and longevity goals.
+                help our clients achieve their performance and wellness goals.
               </p>
-              <p className="text-[#364153] md:text-[14px] text-[13px]">
+              <p className="text-[#364153] md:text-[14px] text-[13px]"> 
                 Please submit your resume and cover letter detailing your
                 relevant experience, and qualifications.
               </p>
@@ -231,7 +241,7 @@ const NursePractitionerModal = ({showNpModal , setShowNpModal , onSelectPosition
           <div className="flex gap-3 mt-6">
             <button
               onClick={() => {
-                onSelectPosition("licensed_practical_nurse");
+                onSelectPosition("nurse_practitioner");
                 setShowNpModal(false);
               }}
               className="bg-[#155DFC] text-white py-2 px-4 rounded-lg"
@@ -247,26 +257,26 @@ const NursePractitionerModal = ({showNpModal , setShowNpModal , onSelectPosition
           </div>
         </div>
       </div>
-      </Modal>
-  )
-}
+    </Modal>
+  );
+};
 
-export default NursePractitionerModal
+export default NursePractitionerModal;
 
-        //   <div className="flex gap-3 mt-6">
-        //     <button
-        //       onClick={() => {
-        //         onSelectPosition("nurse_practitioner");
-        //         setShowNpModal(false);
-        //       }}
-        //       className="bg-[#155DFC] text-white py-2 px-4 rounded-lg"
-        //     >
-        //       Apply for this position
-        //     </button>
-        //     <button
-        //       onClick={() => setShowNpModal(false)}
-        //       className="py-2 px-4 rounded-lg border"
-        //     >
-        //       Close
-        //     </button>
-        //   </div>
+//   <div className="flex gap-3 mt-6">
+//     <button
+//       onClick={() => {
+//         onSelectPosition("nurse_practitioner");
+//         setShowNpModal(false);
+//       }}
+//       className="bg-[#155DFC] text-white py-2 px-4 rounded-lg"
+//     >
+//       Apply for this position
+//     </button>
+//     <button
+//       onClick={() => setShowNpModal(false)}
+//       className="py-2 px-4 rounded-lg border"
+//     >
+//       Close
+//     </button>
+//   </div>
