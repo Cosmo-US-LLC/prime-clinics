@@ -112,8 +112,8 @@ const LicensedPracticalNurseModal = ({
           <div className="space-y-6">
             {jobMeta.map((item, index) => (
               <div key={index}>
-                <p className="md:text-[14px] text-[13px] text-[#4A5565]">{item.label}</p>
-                <p className="md:text-[14px] text-[13px] font-semibold text-[#373737]">
+                <p className="text-[14px] text-[#4A5565]">{item.label}</p>
+                <p className="text-[14px] font-semibold text-[#373737]">
                   {item.value}
                 </p>
               </div>
@@ -170,7 +170,7 @@ const LicensedPracticalNurseModal = ({
           </div>
 
           <div className="space-y-4">
-            <h5 className="font-semibold">Key Responsibilities</h5>
+            <h4 className="md:text-[24px] text-[22px] font-bold text-[#101828]">Key Responsibilities</h4>
             <p className="text-[#364153] md:text-[14px] text-[13px]">
               As this is a new company, the roles and responsibilities will be
               adjusted to the needs of the company, staff, and patients.
@@ -220,14 +220,14 @@ const LicensedPracticalNurseModal = ({
                 Please submit your resume and cover letter detailing your
                 relevant experience, and qualifications.
               </p>
-              <p className="text-[#364153] text-[16px] font-medium">
+              <p className="text-[#364153] md:text-[14px] text-[13px] ">
                 For inquiries email{" "}
                 <a
                   href="mailto:lina@primeclinics.ca"
                   className="text-[#155DFC] underline hover:opacity-80 transition"
                 >
                   lina@primeclinics.ca
-                </a>
+                </a>?
               </p>
             </div>
           </div>
