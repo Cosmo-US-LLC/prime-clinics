@@ -1,13 +1,20 @@
+import { useState } from "react";
 import ArrowSvg from "../../assets/svgs/HearingPage/ArrowSvg";
 import WorkingCards from "./WorkingCards";
+import Modal from "../ui/Modal";
+import NursePractitionerModal from "./NursePractitionerModal";
+import LicensedPracticalNurseModal from "./LicensedPracticalNurse";
 
-const MainText = ({ className , onSelectPosition  }) => {
+const MainText = ({ className, onSelectPosition }) => {
+  const [showNpModal, setShowNpModal] = useState(false);
+  const [showLpnModal, setShowLpnModal] = useState(false);
+
   return (
     <div className={`${className}`}>
       <div>
         <div className="flex md:hidden mb-8 items-center max-h-[60px] ">
           <img src="/LogoMobile.svg" alt="Prime Clinics Logo" />
-        </div> 
+        </div>
         <h2 className="text-[28px] sm:text-[40px] md:max-w-full mx-auto font-bold text-[#101828]  leading-[34px] sm:leading-[48px] mb-[12px]">
           Prime Clinics
         </h2>
@@ -20,7 +27,7 @@ const MainText = ({ className , onSelectPosition  }) => {
           stage of life. By leading forward-thinking conversations about
           optimization and delivering cutting- edge, evidence-based care, we
           redefine what it means to thrive with strength, clarity, and
-          longevity.           
+          longevity.
         </p>
       </div>
       <div className="flex flex-col gap-3">
@@ -46,12 +53,24 @@ const MainText = ({ className , onSelectPosition  }) => {
         <h2 className="text-[28px] sm:text-[32px] max-w-[300px] md:max-w-full font-bold text-[#101828]  leading-[34px] sm:leading-[48px] ">
           Now Hiring
         </h2>
-        <div onClick={() => onSelectPosition("nurse_practitioner")} className="flex w-fit bg-white py-[12px] px-[20px] text-[#101828] text-[16px] font-medium items-center rounded-[14px] underline gap-3 hover:bg-white/70 transition cursor-pointer">
-          Nurse Practitioner (NP) <span className="max-md:hidden"><ArrowSvg /></span>
-        </div>  
- 
-        <div onClick={() => onSelectPosition("licensed_practical_nurse")} className="bg-white w-fit py-[12px] px-[20px] text-[#101828] text-[16px] font-medium flex items-center rounded-[14px] underline gap-3 hover:bg-white/70 transition cursor-pointer">
-          Licensed Practical Nurse (LPN) <span className="max-md:hidden"><ArrowSvg /></span>
+        <div
+          onClick={() => setShowNpModal(true)}
+          className="flex w-fit bg-white py-[12px] px-[20px] text-[#101828] text-[16px] font-medium items-center rounded-[14px] underline gap-3 hover:bg-white/70 transition cursor-pointer"
+        >
+          Nurse Practitioner (NP){" "}
+          <span className="max-md:hidden">
+            <ArrowSvg />
+          </span>
+        </div>
+
+        <div
+          onClick={() => setShowLpnModal(true)}
+          className="bg-white w-fit py-[12px] px-[20px] text-[#101828] text-[16px] font-medium flex items-center rounded-[14px] underline gap-3 hover:bg-white/70 transition cursor-pointer"
+        >
+          Licensed Practical Nurse (LPN){" "}
+          <span className="max-md:hidden">
+            <ArrowSvg />
+          </span>
         </div>
       </div>
       <div className="mb-12 md:block hidden">
@@ -61,9 +80,12 @@ const MainText = ({ className , onSelectPosition  }) => {
 
         <WorkingCards />
       </div>
+
+      {/* Popups for job details (large, scrollable) */}
+      <NursePractitionerModal setShowNpModal={setShowNpModal} showNpModal={showNpModal} onSelectPosition={onSelectPosition} />
+      <LicensedPracticalNurseModal setShowLpnModal={setShowLpnModal} showLpnModal={showLpnModal} onSelectPosition={onSelectPosition} />
     </div>
   );
 };
 
 export default MainText;
- 
