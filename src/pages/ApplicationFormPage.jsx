@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MainText from "../components/ApplicationPage/MainText";
 
 function ApplicationFormPage() {
@@ -41,6 +41,9 @@ function ApplicationFormPage() {
       }));
     }
   };
+
+
+const positionRef = useRef(null);
 
   const handleFileChange = (e) => {
     const { name } = e.target;
@@ -169,20 +172,48 @@ function ApplicationFormPage() {
     }
   };
 
-  const handlePositionChange = (position) => {
-    setFormData((prev) => ({
-      ...prev,
-      position,
-    }));
+  // const handlePositionChange = (position) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     position,
+  //   }));
 
-    // clear validation error if any
-    if (errors.position) {
-      setErrors((prev) => ({
-        ...prev,
-        position: "",
-      }));
-    }
-  };
+  //   // clear validation error if any
+  //   if (errors.position) {
+  //     setErrors((prev) => ({
+  //       ...prev,
+  //       position: "",
+  //     }));
+  //   }
+  // };
+
+  const handlePositionChange = (position) => {
+  setFormData((prev) => ({
+    ...prev,
+    position,
+  }));
+
+  // clear validation error if any
+  if (errors.position) {
+    setErrors((prev) => ({
+      ...prev,
+      position: "",
+    }));
+  }
+
+  // smooth scroll to position select
+  positionRef.current?.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+  });
+
+  // optional: focus the select after scroll
+  setTimeout(() => {
+    const select = document.getElementById("position");
+    select?.focus();
+  }, 300);
+};
+
 
   return (
     <div
@@ -305,7 +336,7 @@ function ApplicationFormPage() {
                         </p>
                       )}
                     </div>
-                    <div>
+                    <div ref={positionRef}>
                       <label
                         htmlFor="position"
                         className="block text-[14px] font-medium text-[#364153] leading-[14px] mb-1"

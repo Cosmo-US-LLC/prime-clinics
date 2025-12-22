@@ -262,21 +262,3 @@ const NursePractitionerModal = ({
 };
 
 export default NursePractitionerModal;
-
-//   <div className="flex gap-3 mt-6">
-//     <button
-//       onClick={() => {
-//         onSelectPosition("nurse_practitioner");
-//         setShowNpModal(false);
-//       }}
-//       className="bg-[#155DFC] text-white py-2 px-4 rounded-lg"
-//     >
-//       Apply for this position
-//     </button>
-//     <button
-//       onClick={() => setShowNpModal(false)}
-//       className="py-2 px-4 rounded-lg border"
-//     >
-//       Close
-//     </button>
-//   </div>
