@@ -7,9 +7,15 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview --host 0.0.0.0",
+    "start": "node server.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "emailjs": "^5.0.0",
+    "express": "^5.2.1",
+    "multer": "^1.4.5-lts.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

@@ -114,23 +114,58 @@ function ApplicationFormPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("Form submitted:", formData);
-      setShowSuccessModal(true);
+      try {
+        const apiBaseUrl = import.meta.env.VITE_API_URL || "";
+        const apiUrl = apiBaseUrl
+          ? `${apiBaseUrl.replace(/\/$/, "")}/api/save-response`
+          : "/api/save-response";
 
-      setFormData({
-        fullName: "",
-        email: "",
-        phone: "",
-        position: "", // ✅ reset
-        resume: null,
-        coverLetter: null,
-        motivation: "",
-        expertise: "",
-      });
+        const payload = new FormData();
+        payload.append("fullName", formData.fullName);
+        payload.append("email", formData.email);
+        payload.append("phone", formData.phone);
+        payload.append("position", formData.position);
+        payload.append("motivation", formData.motivation);
+        payload.append("expertise", formData.expertise);
+
+        if (formData.resume) {
+          payload.append("resume", formData.resume);
+        }
+
+        if (formData.coverLetter) {
+          payload.append("coverLetter", formData.coverLetter);
+        }
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          body: payload,
+        });
+
+        if (!response.ok) {
+          const errorPayload = await response.json().catch(() => null);
+          const message =
+            errorPayload?.message || "Failed to submit the application.";
+          throw new Error(message);
+        }
+
+        setShowSuccessModal(true);
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          position: "", // ✅ reset
+          resume: null,
+          coverLetter: null,
+          motivation: "",
+          expertise: "",
+        });
+      } catch (error) {
+        console.error("Failed to submit application:", error);
+      }
     }
   };
 
