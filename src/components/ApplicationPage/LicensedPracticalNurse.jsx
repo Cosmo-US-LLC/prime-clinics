@@ -106,7 +106,7 @@ const LicensedPracticalNurseModal = ({
       <div className=" flex md:flex-row-reverse flex-col gap-[20px] ">
         <div className="">
           <div className="space-y-[14px] md:py-[24px] md:bg-[#E9F0FF] rounded-lg md:px-[20px]">
-          <h4 className="text-[28px] font-bold text-[#101828]">
+          <h4 className="md:text-[32px] text-[32px] font-bold text-[#101828]">
             Job Information
           </h4>
           <div className="space-y-6">
@@ -184,7 +184,7 @@ const LicensedPracticalNurseModal = ({
 
                   <ul className="list-disc list-inside text-[#364153] mt-1 space-y-1">
                     {section.items.map((item, idx) => (
-                      <li key={idx}>{item}</li>
+                      <li className="text-[#364153] md:text-[14px] text-[13px]" key={idx}>{item}</li>
                     ))}
                   </ul>
                 </div>
@@ -199,7 +199,7 @@ const LicensedPracticalNurseModal = ({
 
                   <ul className="list-disc list-inside text-[#364153] mt-1 space-y-1">
                     {section.items.map((item, idx) => (
-                      <li key={idx}>{item}</li>
+                      <li className="text-[#364153] md:text-[14px] text-[13px]" key={idx}>{item}</li>
                     ))}
                   </ul>
                 </div>
