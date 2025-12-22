@@ -661,7 +661,7 @@ function ApplicationFormPage() {
       </div>
 
       {/* Success Modal */}
-      {!showSuccessModal && (
+      {showSuccessModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="flex flex-col items-center gap-6 sm:gap-6 w-full max-w-[704px] py-8 px-6 sm:py-[56px] sm:px-[48px] rounded-2xl bg-white shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] relative">
             <button
