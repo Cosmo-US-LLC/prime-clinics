@@ -106,7 +106,7 @@ const LicensedPracticalNurseModal = ({
       <div className=" flex md:flex-row-reverse flex-col gap-[20px] ">
         <div className="">
           <div className="space-y-[14px] md:py-[24px] md:bg-[#E9F0FF] rounded-lg md:px-[20px]">
-          <h4 className="md:text-[32px] text-[32px] font-bold text-[#101828]">
+          <h4 className="md:text-[32px] text-[25px] font-bold text-[#101828]">
             Job Information
           </h4>
           <div className="space-y-6">
