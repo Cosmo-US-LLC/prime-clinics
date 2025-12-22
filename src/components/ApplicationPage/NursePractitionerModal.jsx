@@ -112,16 +112,16 @@ const NursePractitionerModal = ({
       <div className=" flex md:flex-row-reverse flex-col gap-[20px] ">
         <div className="max-w-[360px]">
           <div className="space-y-[14px] md:py-[24px] md:bg-[#E9F0FF] rounded-lg md:px-[20px]">
-            <h4 className="md:text-[32px] text-[32px] font-bold text-[#101828]">
+            <h4 className="md:text-[32px] text-[25px] font-semibold text-[#101828]">
               Job Information
             </h4>
             <div className="space-y-6">
               {jobMeta.map((item, index) => (
                 <div key={index}>
-                  <p className="md:text-[14px] text-[13px] text-[#4A5565]">
+                  <p className="text-[14px]  text-[#4A5565]">
                     {item.label}
                   </p>
-                  <p className="md:text-[14px] text-[13px] font-semibold text-[#373737]">
+                  <p className="text-[14px] font-semibold text-[#373737]">
                     {item.value}
                   </p>
                 </div>
@@ -176,7 +176,7 @@ const NursePractitionerModal = ({
           </div>
 
           <div className="space-y-4">
-            <h5 className="font-semibold">Key Responsibilities</h5>
+            <h4 className="md:text-[24px] text-[22px] font-bold text-[#101828]">Key Responsibilities</h4>
             <p className="text-[#364153] md:text-[14px] text-[13px]">
               As this is a new company, the roles and responsibilities will be
               adjusted to the needs of the company, staff, and patients.
@@ -226,7 +226,7 @@ const NursePractitionerModal = ({
                 Please submit your resume and cover letter detailing your
                 relevant experience, and qualifications.
               </p>
-              <p className="text-[#364153] text-[16px] font-medium">
+              {/* <p className="text-[#364153] text-[16px] font-medium">
                 For inquiries email{" "}
                 <a
                   href="mailto:lina@primeclinics.ca"
@@ -234,7 +234,7 @@ const NursePractitionerModal = ({
                 >
                   lina@primeclinics.ca
                 </a>
-              </p>
+              </p> */}
             </div>
           </div>
 
