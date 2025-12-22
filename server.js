@@ -28,6 +28,7 @@ app.use(
       "http://localhost:5173",
       "http://138.197.29.179:4173",
       "http://localhost:3000",
+      "https://application.primeclinics.ca"
     ],
     methods: "GET,POST,PUT",
     allowedHeaders: "Content-Type",
