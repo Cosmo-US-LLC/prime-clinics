@@ -661,9 +661,9 @@ function ApplicationFormPage() {
       </div>
 
       {/* Success Modal */}
-      {showSuccessModal && (
+      {!showSuccessModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="flex flex-col items-center gap-6 sm:gap-10 w-full max-w-[704px] py-8 px-6 sm:py-[56px] sm:px-[48px] rounded-2xl bg-white shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] relative">
+          <div className="flex flex-col items-center gap-6 sm:gap-6 w-full max-w-[704px] py-8 px-6 sm:py-[56px] sm:px-[48px] rounded-2xl bg-white shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] relative">
             <button
               onClick={() => setShowSuccessModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
@@ -712,7 +712,7 @@ function ApplicationFormPage() {
               Application Submitted!
             </h3>
 
-            <p className="text-[#364153] text-center text-[14px] sm:text-lg font-normal leading-[22px] sm:leading-[28px]">
+            <p className="text-[#364153] text-center md:text-[16px] text-[14px] sm:text-lg font-normal leading-[22px] sm:leading-[28px]">
               Thank you for applying to join our nursing team at Prime Clinics.
               We've received your application and will review it carefully. If
               your skills and experience match our needs, a member of our team
@@ -721,7 +721,7 @@ function ApplicationFormPage() {
 
             <button
               onClick={() => setShowSuccessModal(false)}
-              className="bg-[#155DFC] text-white py-2 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="bg-[#155DFC] text-white py-4 px-[25px] rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >
               Back to Home
             </button>
