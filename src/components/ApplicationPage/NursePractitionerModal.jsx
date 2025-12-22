@@ -112,7 +112,7 @@ const NursePractitionerModal = ({
       <div className=" flex md:flex-row-reverse flex-col gap-[20px] ">
         <div className="max-w-[360px]">
           <div className="space-y-[14px] md:py-[24px] md:bg-[#E9F0FF] rounded-lg md:px-[20px]">
-            <h4 className="text-[28px] font-bold text-[#101828]">
+            <h4 className="md:text-[32px] text-[32px] font-bold text-[#101828]">
               Job Information
             </h4>
             <div className="space-y-6">
@@ -172,7 +172,7 @@ const NursePractitionerModal = ({
             <p className="text-[#364153] md:text-[14px] text-[13px]">
              As a Nurse Practitioner Injector at Prime Clinics, you will play a vital role in providing specialized treatments that support both health and aesthetic goals. In addition to administering advanced therapies, you will take on leadership responsibilities under the guidance of the Medical Director, offering mentorship, training, and clinical troubleshooting for staff at your designated clinic.
             </p>
-            <p>Your role will involve conducting diagnostic assessments and recommending individualized treatment pathways, which may include prescriptions, requisitions, and referrals for services such as hormone replacement therapy, weight management, and other medically led programs. You will also perform a variety of treatments, including Bioidentical Hormone Replacement Therapy (BHRT), cosmetic injections (dermal fillers and neurotoxins), IV drips and Performance Booster shots, PRP for hair restoration and erectile rejuvenation, as well as the use of electromagnetic stimulation devices.</p>
+            <p className="text-[#364153] md:text-[14px] text-[13px]">Your role will involve conducting diagnostic assessments and recommending individualized treatment pathways, which may include prescriptions, requisitions, and referrals for services such as hormone replacement therapy, weight management, and other medically led programs. You will also perform a variety of treatments, including Bioidentical Hormone Replacement Therapy (BHRT), cosmetic injections (dermal fillers and neurotoxins), IV drips and Performance Booster shots, PRP for hair restoration and erectile rejuvenation, as well as the use of electromagnetic stimulation devices.</p>
           </div>
 
           <div className="space-y-4">
@@ -190,7 +190,7 @@ const NursePractitionerModal = ({
 
                   <ul className="list-disc list-inside text-[#364153] mt-1 space-y-1">
                     {section.items.map((item, idx) => (
-                      <li key={idx}>{item}</li>
+                      <li className="text-[#364153] md:text-[14px] text-[13px]" key={idx}>{item}</li>
                     ))}
                   </ul>
                 </div>
@@ -205,7 +205,7 @@ const NursePractitionerModal = ({
 
                   <ul className="list-disc list-inside text-[#364153] mt-1 space-y-1">
                     {section.items.map((item, idx) => (
-                      <li key={idx}>{item}</li>
+                      <li className="text-[#364153] md:text-[14px] text-[13px]" key={idx}>{item}</li>
                     ))}
                   </ul>
                 </div>
