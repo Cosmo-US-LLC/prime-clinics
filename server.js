@@ -29,6 +29,7 @@ app.use(
       "http://138.197.29.179:4173",
       "http://localhost:3000",
       "https://application.primeclinics.ca",
+      "http://142.93.158.21:5000",
       "http://142.93.158.21:4173",
     ],
     methods: "GET,POST,PUT",
