@@ -26,3 +26,4 @@ db
 db/*
 db/**
 db/records.json
+.env
