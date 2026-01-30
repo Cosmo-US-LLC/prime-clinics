@@ -43,12 +43,13 @@ app.use(express.json()); // allow JSON request bodies
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const filesDir = path.join(__dirname, "db", "files");
-const recordsFilePath = path.join(__dirname, "db", "records.json");
+const recordsDir = path.join(__dirname, "db");
+const filesDir = path.join(recordsDir, "files");
+const recordsFilePath = path.join(recordsDir, "records.json");
 
 const ensureStorage = () => {
   fs.mkdirSync(filesDir, { recursive: true });
-  fs.mkdirSync(path.dirname(recordsFilePath), { recursive: true });
+  fs.mkdirSync(recordsDir, { recursive: true });
 };
 
 const generateStoredFileName = (originalName) => {
@@ -94,15 +95,16 @@ const upload = multer({
   },
 });
 
-const readRecords = async () => {
+const readRecords = async (filePath = recordsFilePath) => {
   try {
-    const raw = await fs.promises.readFile(recordsFilePath, "utf8");
+    const raw = await fs.promises.readFile(filePath, "utf8");
     if (!raw.trim()) {
       return [];
     }
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) {
-      throw new Error("records.json must contain an array.");
+      const fileName = path.basename(filePath);
+      throw new Error(`${fileName} must contain an array.`);
     }
     return parsed;
   } catch (error) {
@@ -113,9 +115,9 @@ const readRecords = async () => {
   }
 };
 
-const writeRecords = async (records) => {
+const writeRecords = async (records, filePath = recordsFilePath) => {
   await fs.promises.writeFile(
-    recordsFilePath,
+    filePath,
     JSON.stringify(records, null, 2),
     "utf8"
   );
@@ -131,6 +133,113 @@ const extractPayload = (body) => {
     }
   }
   return payload && typeof payload === "object" ? payload : {};
+};
+
+const normalizeFormKey = (value) => {
+  if (!value) {
+    return "";
+  }
+  return value
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9_-]/g, "")
+    .slice(0, 40);
+};
+
+const getFormRecordsFilePath = (req, res) => {
+  const formKey = normalizeFormKey(req.params.formKey);
+  if (!formKey) {
+    res.status(400).json({ status: "error", message: "Invalid form key." });
+    return null;
+  }
+  return path.join(recordsDir, `records-${formKey}.json`);
+};
+
+const createSaveResponseHandler = ({ getRecordsFilePath, fileFields = [] }) => {
+  return (req, res) => {
+    const handleSave = async () => {
+      ensureStorage();
+
+      const resolvedRecordsFilePath =
+        typeof getRecordsFilePath === "function"
+          ? getRecordsFilePath(req, res)
+          : getRecordsFilePath;
+
+      if (!resolvedRecordsFilePath) {
+        return;
+      }
+
+      const payload = extractPayload(req.body);
+      const sanitizedPayload = { ...payload };
+      const fileFieldNames = fileFields.map((field) => field.name);
+
+      for (const fieldName of fileFieldNames) {
+        delete sanitizedPayload[fieldName];
+      }
+
+      const files = req.files || {};
+      const filesPayload =
+        fileFieldNames.length > 0
+          ? fileFieldNames.reduce((acc, fieldName) => {
+              const file = files[fieldName]?.[0];
+              acc[fieldName] = file
+                ? {
+                    fileName: file.filename,
+                    originalName: file.originalname,
+                  }
+                : null;
+              return acc;
+            }, {})
+          : null;
+
+      const record = {
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        ...sanitizedPayload,
+        ...(filesPayload ? { files: filesPayload } : {}),
+      };
+
+      const records = await readRecords(resolvedRecordsFilePath);
+      records.push(record);
+      await writeRecords(records, resolvedRecordsFilePath);
+
+      res.json({
+        status: "success",
+        message: "Data saved successfully!",
+        recordId: record.id,
+      });
+    };
+
+    if (req.is("multipart/form-data")) {
+      const uploadHandler = fileFields.length
+        ? upload.fields(fileFields)
+        : upload.none();
+
+      return uploadHandler(req, res, (error) => {
+        if (error) {
+          return res.status(400).json({
+            status: "error",
+            message: error.message || "Invalid upload.",
+          });
+        }
+
+        handleSave().catch((err) => {
+          console.error("Failed to save response:", err);
+          res
+            .status(500)
+            .json({ status: "error", message: "Failed to save response." });
+        });
+      });
+    }
+
+    handleSave().catch((err) => {
+      console.error("Failed to save response:", err);
+      res
+        .status(500)
+        .json({ status: "error", message: "Failed to save response." });
+    });
+  };
 };
 
 /* ====================================
@@ -164,78 +273,23 @@ app.post("/api/send-mail", async (req, res) => {
 /* ====================================
    🗂️ SAVE FORM RESPONSES (TEMP STORAGE)
 ==================================== */
-app.post("/api/save-response", (req, res) => {
-  const handleSave = async () => {
-    ensureStorage();
-
-    const files = req.files || {};
-    const resumeFile = files.resume?.[0] || null;
-    const coverLetterFile = files.coverLetter?.[0] || null;
-
-    const payload = extractPayload(req.body);
-    const sanitizedPayload = { ...payload };
-    delete sanitizedPayload.resume;
-    delete sanitizedPayload.coverLetter;
-
-    const record = {
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      ...sanitizedPayload,
-      files: {
-        resume: resumeFile
-          ? {
-              fileName: resumeFile.filename,
-              originalName: resumeFile.originalname,
-            }
-          : null,
-        coverLetter: coverLetterFile
-          ? {
-              fileName: coverLetterFile.filename,
-              originalName: coverLetterFile.originalname,
-            }
-          : null,
-      },
-    };
-
-    const records = await readRecords();
-    records.push(record);
-    await writeRecords(records);
-
-    res.json({
-      status: "success",
-      message: "Data saved successfully!",
-      recordId: record.id,
-    });
-  };
-
-  if (req.is("multipart/form-data")) {
-    return upload.fields([
+app.post(
+  "/api/save-response",
+  createSaveResponseHandler({
+    getRecordsFilePath: recordsFilePath,
+    fileFields: [
       { name: "resume", maxCount: 1 },
       { name: "coverLetter", maxCount: 1 },
-    ])(req, res, (error) => {
-      if (error) {
-        return res.status(400).json({
-          status: "error",
-          message: error.message || "Invalid upload.",
-        });
-      }
+    ],
+  })
+);
 
-      handleSave().catch((err) => {
-        console.error("Failed to save response:", err);
-        res
-          .status(500)
-          .json({ status: "error", message: "Failed to save response." });
-      });
-    });
-  }
-
-  handleSave().catch((err) => {
-    console.error("Failed to save response:", err);
-    res
-      .status(500)
-      .json({ status: "error", message: "Failed to save response." });
-  });
-});
+app.post(
+  "/api/save-response/:formKey",
+  createSaveResponseHandler({
+    getRecordsFilePath: getFormRecordsFilePath,
+  })
+);
 
 /* ====================================
    🟩 SERVE VITE REACT BUILD (dist/)
