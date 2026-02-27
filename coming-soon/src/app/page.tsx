@@ -30,14 +30,19 @@ export default function ComingSoon() {
     }
     setStatus("loading");
     try {
-      const res = await fetch("/api/subscribe", {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || "";
+      const apiUrl = apiBase
+        ? `${apiBase.replace(/\/$/, "")}/api/save-response/coming-soon`
+        : "/api/save-response/coming-soon";
+
+      const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: email.trim().toLowerCase() }),
       });
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Something went wrong");
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.message || "Something went wrong");
       }
       setStatus("success");
       setEmail("");
