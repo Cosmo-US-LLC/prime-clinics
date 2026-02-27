@@ -1,49 +1,38 @@
 # Coming Soon Page — Deployment Guide
 
-## Overview
+The coming soon page is a Next.js app in the `coming-soon/` folder. It runs on port **3000** on the same droplet (`142.93.158.21`). The existing application form app on port **5000** is **not affected**.
 
-This is a standalone Next.js app inside the `coming-soon/` folder. It runs on port **3000** alongside the existing application form app on port **5000**. The existing app is **not affected** by this deployment.
+---
 
-## Prerequisites
+## Team needs to do 3 things:
 
-- Node.js 18+ installed on the server
-- PM2 for process management (`npm install -g pm2`)
-- Nginx for reverse proxy
-- Certbot for SSL (optional but recommended)
+### Step 1: Deploy the app on the droplet
 
-## Deployment Steps
-
-### 1. Pull latest code
+SSH into the server and run this single block:
 
 ```bash
-cd /path/to/prime-clinics
-git pull origin main
-```
-
-### 2. Install dependencies & build
-
-```bash
-cd coming-soon
-npm install
-npm run build
-```
-
-### 3. Start with PM2
-
-```bash
-# First time
-pm2 start npm --name "coming-soon" -- start -- -p 3000
+cd /path/to/prime-clinics && \
+git pull origin main && \
+pm2 restart all && \
+cd coming-soon && \
+echo "NEXT_PUBLIC_API_URL=http://localhost:5000" > .env.local && \
+npm install && \
+npm run build && \
+pm2 start npm --name "coming-soon" -- start -- -p 3000 && \
 pm2 save
-
-# On subsequent deploys (after git pull + build)
-pm2 restart coming-soon
 ```
 
-### 4. Nginx config
+That's it for the app. Verify it's running:
 
-Create a new config file at `/etc/nginx/sites-available/coming-soon`:
+```bash
+pm2 status
+curl http://localhost:3000
+```
 
-```nginx
+### Step 2: Add Nginx config on the droplet
+
+```bash
+sudo tee /etc/nginx/sites-available/coming-soon > /dev/null << 'NGINX'
 server {
     listen 80;
     server_name primeclinics.ca www.primeclinics.ca;
@@ -60,39 +49,41 @@ server {
         proxy_cache_bypass $http_upgrade;
     }
 }
+NGINX
+
+sudo ln -sf /etc/nginx/sites-available/coming-soon /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-> **Note:** Replace `primeclinics.ca` with whatever domain you want the coming soon page on. The existing `application.primeclinics.ca` nginx config stays untouched.
+### Step 3: Point DNS in Cloudflare
 
-Enable the config and reload nginx:
+Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → select **primeclinics.ca** → **DNS** tab.
+
+Add or update these two records:
+
+| Type | Name | Content | Proxy |
+|------|------|---------|-------|
+| A | `@` | `142.93.158.21` | Proxied (orange cloud) |
+| A | `www` | `142.93.158.21` | Proxied (orange cloud) |
+
+> **Important:** If Cloudflare proxy is on (orange cloud), SSL is handled by Cloudflare automatically — no need for Certbot. Make sure Cloudflare SSL mode is set to **Full** under SSL/TLS → Overview.
+
+---
+
+## Done!
+
+After all 3 steps, `primeclinics.ca` will show the Coming Soon page. `application.primeclinics.ca` continues to work as before.
+
+Email signups are saved to `db/records-coming-soon.json` on the server. To check signups:
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/coming-soon /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
+cat /path/to/prime-clinics/db/records-coming-soon.json
 ```
 
-### 5. SSL with Certbot (recommended)
+---
+
+## Future redeployments (after code updates)
 
 ```bash
-sudo certbot --nginx -d primeclinics.ca -d www.primeclinics.ca
-```
-
-## Redeployment (after code updates)
-
-```bash
-cd /path/to/prime-clinics
-git pull origin main
-cd coming-soon
-npm install
-npm run build
-pm2 restart coming-soon
-```
-
-## Useful commands
-
-```bash
-pm2 status              # Check if apps are running
-pm2 logs coming-soon    # View logs
-pm2 restart coming-soon # Restart after deploy
+cd /path/to/prime-clinics && git pull origin main && cd coming-soon && npm install && npm run build && pm2 restart coming-soon
 ```
