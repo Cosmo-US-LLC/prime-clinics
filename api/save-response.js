@@ -68,31 +68,39 @@ export default async function handler(req, res) {
     return res.status(400).json({ status: "error", message: "Missing required fields." });
   }
 
-  const [resumeResult, coverLetterResult] = await Promise.all([
-    uploadToBlob(req.files?.resume?.[0] ?? null),
-    uploadToBlob(req.files?.coverLetter?.[0] ?? null),
-  ]);
+  try {
+    const [resumeResult, coverLetterResult] = await Promise.all([
+      uploadToBlob(req.files?.resume?.[0] ?? null),
+      uploadToBlob(req.files?.coverLetter?.[0] ?? null),
+    ]);
 
-  const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
 
-  const { error } = await supabase.from("job_applications").insert({
-    id: crypto.randomUUID(),
-    full_name: fullName,
-    email,
-    phone,
-    position,
-    motivation: motivation || null,
-    expertise: expertise || null,
-    resume_url: resumeResult.url,
-    resume_original_name: resumeResult.originalName,
-    cover_letter_url: coverLetterResult.url,
-    cover_letter_original_name: coverLetterResult.originalName,
-  });
+    const { error } = await supabase.from("job_applications").insert({
+      id: crypto.randomUUID(),
+      full_name: fullName,
+      email,
+      phone,
+      position,
+      motivation: motivation || null,
+      expertise: expertise || null,
+      resume_url: resumeResult.url,
+      resume_original_name: resumeResult.originalName,
+      cover_letter_url: coverLetterResult.url,
+      cover_letter_original_name: coverLetterResult.originalName,
+    });
 
-  if (error) throw new Error(error.message);
+    if (error) {
+      console.error("Supabase insert error:", error);
+      return res.status(500).json({ status: "error", message: error.message });
+    }
 
-  res.json({ status: "success", message: "Application submitted successfully!" });
+    res.json({ status: "success", message: "Application submitted successfully!" });
+  } catch (err) {
+    console.error("Handler error:", err);
+    res.status(500).json({ status: "error", message: err.message });
+  }
 }
