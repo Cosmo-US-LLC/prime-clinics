@@ -81,16 +81,16 @@ export default async function handler(req, res) {
 
     const { error } = await supabase.from("JobApplication").insert({
       id: crypto.randomUUID(),
-      full_name: fullName,
+      fullName,
       email,
       phone,
       position,
       motivation: motivation || null,
       expertise: expertise || null,
-      resume_url: resumeResult.url,
-      resume_original_name: resumeResult.originalName,
-      cover_letter_url: coverLetterResult.url,
-      cover_letter_original_name: coverLetterResult.originalName,
+      resumeUrl: resumeResult.url,
+      resumeOriginalName: resumeResult.originalName,
+      coverLetterUrl: coverLetterResult.url,
+      coverLetterOriginalName: coverLetterResult.originalName,
     });
 
     if (error) {
