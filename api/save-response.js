@@ -78,6 +78,7 @@ export default async function handler(req, res) {
       process.env.SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
+    
 
     const { error } = await supabase.from("JobApplication").insert({
       id: crypto.randomUUID(),
