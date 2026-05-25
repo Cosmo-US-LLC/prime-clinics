@@ -79,7 +79,7 @@ export default async function handler(req, res) {
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
-    const { error } = await supabase.from("job_applications").insert({
+    const { error } = await supabase.from("JobApplication").insert({
       id: crypto.randomUUID(),
       full_name: fullName,
       email,
