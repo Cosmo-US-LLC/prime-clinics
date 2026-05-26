@@ -19,15 +19,7 @@ const MainText = ({ className, onSelectPosition }) => {
           Prime Clinics
         </h2>
         <p className="text-[#364153]  sm:text-start text-[14px] sm:text-[16px] font-normal leading-[22px] sm:leading-[29.25px] tracking-[-0.439px]">
-          PRIME Clinics is a performance and longevity clinic dedicated to
-          optimize health by helping individuals live longer, stronger, and with
-          greater quality of life. Our approach combines advanced diagnostic
-          testing with personalized, data-driven solutions to optimize health,
-          enhance performance, image confidence and support vitality at every
-          stage of life. By leading forward-thinking conversations about
-          optimization and delivering cutting- edge, evidence-based care, we
-          redefine what it means to thrive with strength, clarity, and
-          longevity.
+          PRIME Clinics is a performance and longevity clinic dedicated to optimize health by helping individuals live longer, stronger, and with greater quality of life. Our approach combines advanced science-based assessments with personalized, data-driven solutions to optimize health, enhance performance, image confidence and support vitality at every stage of life. By leading forward-thinking conversations about optimization and delivering cutting-edge, evidence-based care, we redefine what it means to thrive with strength, clarity, and longevity.
         </p>
       </div>
       <div className="flex flex-col gap-3">
