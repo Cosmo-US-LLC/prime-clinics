@@ -35,7 +35,7 @@ const uploadToBlob = async (file) => {
   const ext = file.originalname.split(".").pop();
   const safeName = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
   const { url } = await put(`job-applications/${safeName}`, file.buffer, {
-    access: "public",
+    access: "private",
     contentType: file.mimetype,
   });
   return { url, originalName: file.originalname };
