@@ -41,10 +41,23 @@ const uploadToBlob = async (file) => {
   return { url, originalName: file.originalname };
 };
 
+const ALLOWED_ORIGINS = [
+  "https://prime-clinics-website-eight.vercel.app",
+  "https://prime-clinics-chi.vercel.app",
+  "https://prime-clinics-omega.vercel.app",
+  "https://prime-clinics-website.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const origin = req.headers.origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
   res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Vary", "Origin");
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") return res.status(405).json({ message: "Method not allowed" });
