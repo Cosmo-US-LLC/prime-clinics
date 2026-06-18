@@ -32,3 +32,5 @@ db/*
 db/**
 db/records.json
 
+.vercel
+!.vercel/project.json
